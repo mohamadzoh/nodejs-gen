@@ -1,0 +1,32 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.outputType = exports.mode = exports.uploadPath = exports.entityPath = exports.dataBase = exports.password = exports.userName = exports.host = exports.dbPortNumber = exports.setConfiguration = void 0;
+let host = "127.0.0.1";
+exports.host = host;
+let userName = "root";
+exports.userName = userName;
+let password = "password";
+exports.password = password;
+let dataBase = "aplo";
+exports.dataBase = dataBase;
+let entityPath = "entities/";
+exports.entityPath = entityPath;
+let uploadPath = "uploads/";
+exports.uploadPath = uploadPath;
+let mode = "mysql";
+exports.mode = mode;
+let outputType = "nest";
+exports.outputType = outputType;
+let dbPortNumber = 3306;
+exports.dbPortNumber = dbPortNumber;
+function setConfiguration(props) {
+    exports.dbPortNumber = dbPortNumber = props.dbPortNumber;
+    exports.userName = userName = props.userName;
+    exports.password = password = props.password;
+    exports.dataBase = dataBase = props.dataBase;
+    exports.entityPath = entityPath = props.entityPath;
+    exports.uploadPath = uploadPath = props.uploadPath;
+    exports.mode = mode = props.mode;
+    exports.outputType = outputType = props.outputType;
+}
+exports.setConfiguration = setConfiguration;

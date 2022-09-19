@@ -1,0 +1,39 @@
+{
+  "name": "nodejs-gen",
+  "version": "1.0.2",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "node-gen": "bin/app.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohamadzoh/node-gen.git"
+  },
+  "keywords": [
+    "node",
+    "js",
+    "crud",
+    "generator"
+  ],
+  "author": "Mohamad Al Zohbie",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mohamadzoh/nodejs-gen/issues"
+  },
+  "homepage": "https://github.com/mohamadzoh/nodejs-gen#readme",
+  "dependencies": {
+    "@types/express": "^4.17.14",
+    "fs-extra": "^10.1.0",
+    "mysql2": "^2.3.3",
+    "ts-node": "^10.9.1",
+    "tsc": "^2.0.4",
+    "typeorm": "^0.3.9"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.13"
+  }
+}
