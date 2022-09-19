@@ -1,23 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-function columnType(nullable, dataType) {
-    let typeDeclaration = "@IsString()";
-    let type = "string";
-    let optional = "";
-    if (nullable == "YES") {
-        optional = "@IsOptional()";
-    }
-    if (dataType == "int" ||
-        dataType == "tinyint" ||
-        dataType == "double" ||
-        dataType == "decimal" ||
-        dataType == "smallint" ||
-        dataType == "float") {
-        typeDeclaration = "@IsNumberString()";
-        type = "number;";
-    }
-    return { typeDeclaration, type, optional };
-}
+const column_type_1 = __importDefault(require("../../column-type"));
 function dtoTemplate(props) {
     let tableName = props.pascalCaseTableName;
     let tableData = props.tableData;
@@ -25,10 +11,10 @@ function dtoTemplate(props) {
     export class Create${tableName}Dto {`;
     for (let i = 1; i < tableData.length; i++) {
         let camelCaseName = tableData[i].columnName;
-        const { typeDeclaration, type, optional } = columnType(tableData[i].nullable, tableData[i].dataType);
+        const { typeDeclaration, type, optional } = (0, column_type_1.default)(tableData[i].nullable, tableData[i].dataType);
         template += `${optional}
 ${typeDeclaration}
-${camelCaseName}:${type}
+${camelCaseName}:${type};
 `;
     }
     template += `}`;
@@ -36,13 +22,13 @@ ${camelCaseName}:${type}
 export class Update${tableName}Dto {`;
     for (let i = 0; i < tableData.length; i++) {
         let camelCaseName = tableData[i].columnName;
-        const { typeDeclaration, type } = columnType(tableData[i].nullable, tableData[i].dataType);
+        const { typeDeclaration, type } = (0, column_type_1.default)(tableData[i].nullable, tableData[i].dataType);
         if (i > 0) {
             template += `@IsOptional()`;
         }
         template += `
 ${typeDeclaration}
-${camelCaseName}:${type}
+${camelCaseName}:${type};
 `;
     }
     template += `

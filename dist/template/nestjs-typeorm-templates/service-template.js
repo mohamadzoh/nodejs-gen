@@ -1,5 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const column_type_1 = __importDefault(require("../../column-type"));
 const config_1 = require("../../config");
 function serviceTemplate(props) {
     const pascalCaseTableName = props.pascalCaseTableName;
@@ -69,8 +73,10 @@ if(allowedfilterColumn.indexOf(element)==-1){
       }
 
 
-      async getOneWithRelation(id:number){
-        return await this.${camelCaseName}Repository.findOne({where:{id:id},relations:[${relationsName.map((element) => "'" + element + "'")}]})
+      async getOneWithRelation(${props.primaryKeys.map((element) => { return element.columnName + ":" + (0, column_type_1.default)('NO', element.type).type; })}){
+        return await this.${camelCaseName}Repository.findOne({where:{${props.primaryKeys.map((element) => {
+        return element.columnName + ":" + element.columnName;
+    })}},relations:[${relationsName.map((element) => "'" + element + "'")}]})
       }
 
 
@@ -125,14 +131,18 @@ if(allowedfilterColumn.indexOf(element)==-1){
       }
 
 
-      async findOne(id: number) {
-        return await this.${camelCaseName}Repository.findOne({ where: { id: id } })
+      async findOne(${props.primaryKeys.map((element) => { return element.columnName + ":" + (0, column_type_1.default)('NO', element.type).type; })}) {
+        return await this.${camelCaseName}Repository.findOne({ where: { ${props.primaryKeys.map((element) => {
+        return element.columnName + ":" + element.columnName;
+    })} } })
       }
 
 
-      async remove(id: number) {
+      async remove(${props.primaryKeys.map((element) => { return element.columnName + ":" + (0, column_type_1.default)('NO', element.type).type; })}) {
 
-        return await this.${camelCaseName}Repository.delete({ id: id })
+        return await this.${camelCaseName}Repository.delete({ ${props.primaryKeys.map((element) => {
+        return element.columnName + ":" + element.columnName;
+    })} })
       }
     }
     `;

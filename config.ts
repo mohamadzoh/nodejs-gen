@@ -1,7 +1,7 @@
 let host:string = "127.0.0.1";
 let userName:string = "root";
-let password:string = "password";
-let dataBase:string = "aplo";
+let password:string = "";
+let dataBase:string = "";
 let entityPath:string = "entities/";
 let uploadPath:string = "uploads/";
 let mode: "entity" | "mysql" = "mysql";

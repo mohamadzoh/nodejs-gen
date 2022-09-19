@@ -11,5 +11,12 @@ async function main(props:{host:string,dbPortNumber:number,
   setConfiguration(props);
   await generatorEngine();
 }
-// main();
+// main({host:"127.0.0.1",dbPortNumber:3306,
+//   userName:"root",
+//   password:"password",
+//   dataBase:"aplo",
+//   entityPath:"entities/",
+//   uploadPath:"./upload",
+//   mode:"mysql",
+//   outputType:"nest"});
 export default main;

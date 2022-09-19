@@ -14,6 +14,9 @@ async function expressjsTypeormGenerator(tableData: {
     camelCaseTableName: string;
     kabebCaseTableName: string;
     pascalCaseTableName: string;
+    primaryKeys:{columnName:string,
+      type:string
+      }[]
   };
 }) {
   await fs.ensureDir("./output/");
@@ -34,6 +37,7 @@ async function expressjsTypeormGenerator(tableData: {
     pascalCaseName: string;
     kebabCaseName: string;
     camelCaseName: string;
+    
   }[] = [];
   const keys: string[] = Object.keys(tableData);
   for await (let tableName of keys) {
@@ -53,6 +57,7 @@ async function expressjsTypeormGenerator(tableData: {
         pascalCaseTableName: element.pascalCaseTableName,
         camelCaseName: element.camelCaseTableName,
         tableData: element.tableData,
+        primaryKeys:element.primaryKeys
       })
     );
     await fs.ensureFile(
@@ -60,7 +65,7 @@ async function expressjsTypeormGenerator(tableData: {
     );
     await fs.writeFile(
       `./output/expressjs-typeorm/router/${element.kabebCaseTableName}.ts`,
-      routerTemplate(element.camelCaseTableName, element.kabebCaseTableName)
+      routerTemplate(element.camelCaseTableName, element.kabebCaseTableName,element.primaryKeys)
     );
   }
 

@@ -10,7 +10,7 @@ async function mysqlDataCollector() {
         user: config_1.userName,
         password: config_1.password,
     });
-    let result = await connection.query(`select column_name as columnName,table_name as tableName ,DATA_TYPE as dataType,IS_NULLABLE as nullable from information_schema.columns where table_schema = '${config_1.dataBase}' order by table_name,ordinal_position`);
+    let result = await connection.query(`select COLUMN_KEY as columnKey, column_name as columnName,table_name as tableName ,DATA_TYPE as dataType,IS_NULLABLE as nullable from information_schema.columns where table_schema = '${config_1.dataBase}' order by table_name,ordinal_position`);
     let relationResult = await connection.query("SELECT `TABLE_NAME` as tableName, `COLUMN_NAME`  as columnName, `REFERENCED_TABLE_NAME` as referencedTable, `REFERENCED_COLUMN_NAME` as referencedColumn FROM `information_schema`.`KEY_COLUMN_USAGE` WHERE `CONSTRAINT_SCHEMA` = '" +
         config_1.dataBase +
         "' AND `REFERENCED_TABLE_SCHEMA` IS NOT NULL AND `REFERENCED_TABLE_NAME` IS NOT NULL AND `REFERENCED_COLUMN_NAME` IS NOT NULL");
@@ -18,7 +18,7 @@ async function mysqlDataCollector() {
         let pascalCaseName = (0, multi_case_1.pascalCase)(element.tableName);
         if (tableData[pascalCaseName] &&
             tableData[pascalCaseName].tableData.length > 0) {
-            tableData[(0, multi_case_1.pascalCase)(element.tableName)].tableData.push({
+            tableData[pascalCaseName].tableData.push({
                 columnName: (0, multi_case_1.camelCase)(element.columnName),
                 originalColumnName: element.columnName,
                 dataType: element.dataType,
@@ -36,6 +36,7 @@ async function mysqlDataCollector() {
                 kabebCaseTableName: (0, multi_case_1.kebabCase)(element.tableName),
                 pascalCaseTableName: (0, multi_case_1.pascalCase)(element.tableName),
                 relationsName: [],
+                primaryKeys: []
             };
             tableData[pascalCaseName].tableData = [
                 {
@@ -45,6 +46,9 @@ async function mysqlDataCollector() {
                     nullable: element.nullable,
                 },
             ];
+        }
+        if (element.columnKey == 'PRI') {
+            tableData[pascalCaseName].primaryKeys.push({ columnName: (0, multi_case_1.camelCase)(element.columnName), type: element.dataType });
         }
     });
     Object.keys(tableData).forEach((key) => {

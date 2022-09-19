@@ -1,5 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const column_type_1 = __importDefault(require("../../column-type"));
 function controllerTemplate(props) {
     let tableName = props.pascalCaseTableName;
     let camelCaseName = props.camelCaseName;
@@ -133,11 +137,16 @@ data: response
   }
 
   
-  @Get(':id')
-  async findOne(@Param('id') id:string) {
+  @Get('${props.primaryKeys.map((element) => { return '/:' + element.columnName; })}')
+  async findOne(${props.primaryKeys.map((element) => { return "@Param('" + element.columnName + "') " + element.columnName + ":" + (0, column_type_1.default)('NO', element.type).type; })}) {
     let response: any;
     try {
-response = await this.${camelCaseName}Service.findOne(+id);
+response = await this.${camelCaseName}Service.findOne(${props.primaryKeys.map((element) => {
+        if ((0, column_type_1.default)('No', element.type).type == 'number') {
+            return '+' + element.columnName;
+        }
+        return element.columnName;
+    })});
     } catch (err:any) {
 throw new HttpException({
   statusCode: HttpStatus.BAD_REQUEST,
@@ -152,11 +161,16 @@ data: response
   }
 
 
-  @Get('details/:id')
-  async getOneWithRelation(@Param('id') id:string) {
+  @Get('details${props.primaryKeys.map((element) => { return '/:' + element.columnName; })}')
+  async getOneWithRelation(${props.primaryKeys.map((element) => { return "@Param('" + element.columnName + "') " + element.columnName + ":" + (0, column_type_1.default)('NO', element.type).type; })}) {
     let response: any;
     try {
-response = await this.${camelCaseName}Service.getOneWithRelation(+id);
+response = await this.${camelCaseName}Service.getOneWithRelation(${props.primaryKeys.map((element) => {
+        if ((0, column_type_1.default)('No', element.type).type == 'number') {
+            return '+' + element.columnName;
+        }
+        return element.columnName;
+    })});
     } catch (err:any) {
 throw new HttpException({
   statusCode: HttpStatus.BAD_REQUEST,
@@ -171,11 +185,16 @@ data: response
   }
 
   
-  @Get('remove/:id')
-  async removeOne(@Param('id') id:string) {
+  @Get('remove${props.primaryKeys.map((element) => { return '/:' + element.columnName; })}')
+  async removeOne(${props.primaryKeys.map((element) => { return "@Param('" + element.columnName + "') " + element.columnName + ":" + (0, column_type_1.default)('NO', element.type).type; })}) {
     let response: any;
     try {
-response = await this.${camelCaseName}Service.remove(+id);
+response = await this.${camelCaseName}Service.remove(${props.primaryKeys.map((element) => {
+        if ((0, column_type_1.default)('No', element.type).type == 'number') {
+            return '+' + element.columnName;
+        }
+        return element.columnName;
+    })});
     } catch (err:any) {
 throw new HttpException({
   statusCode: HttpStatus.BAD_REQUEST,

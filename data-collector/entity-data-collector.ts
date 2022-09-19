@@ -15,6 +15,10 @@ async function entityDataCollector(){
       let tableData: { [index: string]: any } = {};
       await dataSource.initialize();
       dataSource.entityMetadatas.forEach((table) => {
+      const primaryKeys=  table.primaryColumns.map((item)=>{
+return {columnName:item.propertyName,type:item.type}
+
+      });
         let tmptableData: { [index: string]: any } = {};
         tmptableData = table.ownColumns.map((element) => {
           let obj: {
@@ -58,6 +62,7 @@ async function entityDataCollector(){
             pascalCaseTableName: pascalCase(table.givenTableName),
             tableData: tmptableData,
             relationsName: relationsName,
+            primaryKeys:primaryKeys
           };
       });
     return  tableData;

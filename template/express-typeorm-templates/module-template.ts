@@ -1,8 +1,12 @@
+import columnType from "../../column-type";
 function ModuleTemplate(props: {
     pascalCaseTableName: any;
     camelCaseName: any;
     tableData: any;
     relationsName: any;
+    primaryKeys:{columnName:string,
+      type:string
+      }[]
   }) {
     const pascalCaseTableName = props.pascalCaseTableName;
     const camelCaseName = props.camelCaseName;
@@ -61,7 +65,7 @@ if(allowedfilterColumn.indexOf(element)==-1){
           (element: string) => "'" + element + "'"
         )}];
 let selectedRelations:string[]=[];
-if(query!=undefined && Object.key(query).length>0){
+if(query!=undefined && Object.keys(query).length>0){
 selectedRelations=query.relations.split(',');
 selectedRelations.forEach((element)=>{
   if(allowedRelations.indexOf(element)==-1){
@@ -79,15 +83,21 @@ if(allowedfilterColumn.indexOf(element)==-1){
         const {skip,take}=query;
         return await ${pascalCaseTableName}Repository.find({skip:skip,take:take});
       }
-      async function findOne(id: number) {
-        return await ${pascalCaseTableName}Repository.findOne({ where: { id: id } })
+      async function findOne(${props.primaryKeys.map((element)=>{
+      return element.columnName+':'+columnType('NO',element.type).type
+      }).join(',')}) {
+        return await ${pascalCaseTableName}Repository.findOne({ where: { ${props.primaryKeys.map((element)=>{return element.columnName+":"+element.columnName})} } })
       }
-      async function remove(id: number) {
+      async function remove(${props.primaryKeys.map((element)=>{
+      return element.columnName+':'+columnType('NO',element.type).type
+      }).join(',')}) {
 
-        return await ${pascalCaseTableName}Repository.delete({ id: id })
+        return await ${pascalCaseTableName}Repository.delete({ ${props.primaryKeys.map((element)=>{return element.columnName+":"+element.columnName})} })
       }
 
-    async function findOneWithRelation(id:number){
+    async function findOneWithRelation(${props.primaryKeys.map((element)=>{
+    return element.columnName+':'+columnType('NO',element.type).type
+    }).join(',')}){
         return await ${pascalCaseTableName}Repository.findOne({where:{id:id},relations:[${relationsName.map(
             (element: string) => "'" + element + "'"
           )}]})    }

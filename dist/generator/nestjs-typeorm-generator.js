@@ -48,6 +48,7 @@ async function nestjsTypeormGenerator(tableData) {
             pascalCaseTableName: tableData[tableName].pascalCaseTableName,
             camelCaseName,
             kebabName,
+            primaryKeys: tableData[tableName].primaryKeys
         }));
         await fs_extra_1.default.ensureFile("./output/nestjs-typeorm/" +
             camelCaseName +
@@ -63,6 +64,7 @@ async function nestjsTypeormGenerator(tableData) {
             tableData: tableData[tableName].tableData,
             relationsName: tableData[tableName].relationsName,
             pascalCaseTableName: tableData[tableName].pascalCaseTableName,
+            primaryKeys: tableData[tableName].primaryKeys
         }));
         await fs_extra_1.default.ensureFile("./output/nestjs-typeorm/" +
             camelCaseName +

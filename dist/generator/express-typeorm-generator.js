@@ -34,9 +34,10 @@ async function expressjsTypeormGenerator(tableData) {
             pascalCaseTableName: element.pascalCaseTableName,
             camelCaseName: element.camelCaseTableName,
             tableData: element.tableData,
+            primaryKeys: element.primaryKeys
         }));
         await fs_extra_1.default.ensureFile(`./output/expressjs-typeorm/router/${element.kabebCaseTableName}.ts`);
-        await fs_extra_1.default.writeFile(`./output/expressjs-typeorm/router/${element.kabebCaseTableName}.ts`, (0, router_template_1.default)(element.camelCaseTableName, element.kabebCaseTableName));
+        await fs_extra_1.default.writeFile(`./output/expressjs-typeorm/router/${element.kabebCaseTableName}.ts`, (0, router_template_1.default)(element.camelCaseTableName, element.kabebCaseTableName, element.primaryKeys));
     }
     await fs_extra_1.default.ensureFile(`./output/expressjs-typeorm/app.ts`);
     await fs_extra_1.default.writeFile(`./output/expressjs-typeorm/app.ts`, (0, app_template_1.default)(tablesNames));

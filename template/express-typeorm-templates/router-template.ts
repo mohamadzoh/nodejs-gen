@@ -1,4 +1,6 @@
-function routerTemplate(camelCaseTableName:string,kebabCaseName:string){
+function routerTemplate(camelCaseTableName:string,kebabCaseName:string,primaryKeys:{columnName:string,
+    type:string
+    }[]){
 let template:string=
 `const ${camelCaseTableName}Route = require('express').Router();
 import ${camelCaseTableName}Uploader from '../router-upload';
@@ -30,27 +32,33 @@ ${camelCaseTableName}Route.get("", async (req, res) => {
         res.status(400).send("An error has occurred");
     }
 });
-${camelCaseTableName}Route.get("/:id", async (req, res) => {
+${camelCaseTableName}Route.get("${primaryKeys.map((element)=>{
+    return '/:'+element.columnName;
+}).join('')}", async (req, res) => {
     try {
-        let result = await findOne(req.params.id);
+        let result = await findOne(${primaryKeys.map((element)=>{return 'req.params.'+element.columnName})});
         res.status(200).send(result);
     }
     catch (e) {
         res.status(400).send("An error has occurred");
     }
 });
-${camelCaseTableName}Route.get("delete/:id", async (req, res) => {
+${camelCaseTableName}Route.get("delete${primaryKeys.map((element)=>{
+    return '/:'+element.columnName;
+}).join('')}", async (req, res) => {
     try {
-        let result = await delete(req.params.id);
+        let result = await delete(${primaryKeys.map((element)=>{return 'req.params.'+element.columnName})});
         res.status(200).send(result);
     }
     catch (e) {
         res.status(400).send("An error has occurred");
     }
 });
-${camelCaseTableName}Route.get("/with-relations/:id", async (req, res) => {
+${camelCaseTableName}Route.get("/with-relations${primaryKeys.map((element)=>{
+    return element.columnName;
+}).join('')}", async (req, res) => {
     try {
-        let result = await findOneWithRelation(req.params.id);
+        let result = await findOneWithRelation(${primaryKeys.map((element)=>{return 'req.params.'+element.columnName})});
         res.status(200).send(result);
     }
     catch (e) {

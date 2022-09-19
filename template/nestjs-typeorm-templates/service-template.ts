@@ -1,3 +1,4 @@
+import columnType from "../../column-type";
 import { entityPath } from "../../config";
 
 function serviceTemplate(props: {
@@ -5,6 +6,9 @@ function serviceTemplate(props: {
   camelCaseName: any;
   tableData: any;
   relationsName: any;
+  primaryKeys:{columnName:string,
+    type:string
+    }[]
 }) {
   const pascalCaseTableName = props.pascalCaseTableName;
   const camelCaseName = props.camelCaseName;
@@ -76,8 +80,10 @@ if(allowedfilterColumn.indexOf(element)==-1){
       }
 
 
-      async getOneWithRelation(id:number){
-        return await this.${camelCaseName}Repository.findOne({where:{id:id},relations:[${relationsName.map(
+      async getOneWithRelation(${props.primaryKeys.map((element)=>{return element.columnName+":"+columnType('NO',element.type).type})}){
+        return await this.${camelCaseName}Repository.findOne({where:{${props.primaryKeys.map((element)=>{
+          return element.columnName+":"+element.columnName
+        })}},relations:[${relationsName.map(
     (element: string) => "'" + element + "'"
   )}]})
       }
@@ -140,14 +146,18 @@ if(allowedfilterColumn.indexOf(element)==-1){
       }
 
 
-      async findOne(id: number) {
-        return await this.${camelCaseName}Repository.findOne({ where: { id: id } })
+      async findOne(${props.primaryKeys.map((element)=>{return element.columnName+":"+columnType('NO',element.type).type})}) {
+        return await this.${camelCaseName}Repository.findOne({ where: { ${props.primaryKeys.map((element)=>{
+          return element.columnName+":"+element.columnName
+        })} } })
       }
 
 
-      async remove(id: number) {
+      async remove(${props.primaryKeys.map((element)=>{return element.columnName+":"+columnType('NO',element.type).type})}) {
 
-        return await this.${camelCaseName}Repository.delete({ id: id })
+        return await this.${camelCaseName}Repository.delete({ ${props.primaryKeys.map((element)=>{
+          return element.columnName+":"+element.columnName
+        })} })
       }
     }
     `;

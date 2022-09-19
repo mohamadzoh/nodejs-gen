@@ -1,17 +1,17 @@
 {
   "name": "nodejs-gen",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "",
   "main": "index.js",
   "bin": {
-    "node-gen": "bin/app.js"
+    "nodejs-gen": "bin/app.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mohamadzoh/node-gen.git"
+    "url": "git+https://github.com/mohamadzoh/nodejs-gen.git"
   },
   "keywords": [
     "node",
