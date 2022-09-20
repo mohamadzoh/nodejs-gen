@@ -19,7 +19,11 @@ Node js crud generator for expressjs and NestJs
 ```
 npx nodejs-gen -d testDataBase -u root -p password -m mysql -o express
 ```
-
+## Dependency
+for express 
+```
+npm i express cors typeorm mysql2 fs-extra @types/multer  --save-dev @types/cors @types/node --save-dev @types/express  --save-dev @types/node
+```
 ## Features
 
 - NestJs Crud generator

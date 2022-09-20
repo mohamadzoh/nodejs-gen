@@ -5,6 +5,7 @@ import moduleTemplate from "../template/express-typeorm-templates/module-templat
 import multerTemplate from "../template/express-typeorm-templates/multer-template";
 import routerTemplate from "../template/express-typeorm-templates/router-template";
 import uploadMiddlewareTemplate from "../template/express-typeorm-templates/upload-middleware-template";
+import typescriptConfig from "../template/express-typeorm-templates/typescript-config-template"
 
 async function expressjsTypeormGenerator(tableData: {
   [x: string]: {
@@ -23,6 +24,11 @@ async function expressjsTypeormGenerator(tableData: {
   await fs.ensureDir("./output/expressjs-typeorm/");
   await fs.ensureDir("./output/expressjs-typeorm/router");
   await fs.ensureDir("./output/expressjs-typeorm/module");
+  await fs.ensureFile("./output/expressjs-typeorm/tsconfig.json");
+  await fs.writeFile(
+    "./output/expressjs-typeorm/tsconfig.json",
+    typescriptConfig()
+  );
   await fs.ensureFile("./output/expressjs-typeorm/file-middleware.ts");
   await fs.writeFile(
     "./output/expressjs-typeorm/file-middleware.ts",

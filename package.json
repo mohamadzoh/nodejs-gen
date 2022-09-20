@@ -1,6 +1,6 @@
 {
   "name": "nodejs-gen",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
   "main": "index.js",
   "bin": {
@@ -17,7 +17,11 @@
     "node",
     "js",
     "crud",
-    "generator"
+    "generator",
+    "expressjs",
+    "nestjs",
+    "restapi",
+    "backend"
   ],
   "author": "Mohamad Al Zohbie",
   "license": "MIT",

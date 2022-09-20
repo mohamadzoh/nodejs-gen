@@ -47,7 +47,7 @@ ${camelCaseTableName}Route.get("delete${primaryKeys.map((element)=>{
     return '/:'+element.columnName;
 }).join('')}", async (req, res) => {
     try {
-        let result = await delete(${primaryKeys.map((element)=>{return 'req.params.'+element.columnName})});
+        let result = await remove(${primaryKeys.map((element)=>{return 'req.params.'+element.columnName})});
         res.status(200).send(result);
     }
     catch (e) {
