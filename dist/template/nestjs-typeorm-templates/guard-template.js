@@ -1,6 +1,6 @@
 "use strict";
 function guardTemplate() {
-    return `import { Injectable, CanActivate, ArgumentsHost } from '@nestjs/common';
+  return `import { Injectable, CanActivate, ArgumentsHost } from '@nestjs/common';
 @Injectable()
 export class AuthGuard implements CanActivate {
  async canActivate(

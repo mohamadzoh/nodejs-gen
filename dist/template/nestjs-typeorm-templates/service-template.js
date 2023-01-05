@@ -1,18 +1,18 @@
 "use strict";
 var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+  return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const column_type_1 = __importDefault(require("../../column-type"));
 const config_1 = require("../../config");
 function serviceTemplate(props) {
-    const pascalCaseTableName = props.pascalCaseTableName;
-    const camelCaseName = props.camelCaseName;
-    let relationsName = [];
-    if (props.relationsName != undefined) {
-        relationsName = props.relationsName;
-    }
-    let template = `import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+  const pascalCaseTableName = props.pascalCaseTableName;
+  const camelCaseName = props.camelCaseName;
+  let relationsName = [];
+  if (props.relationsName != undefined) {
+    relationsName = props.relationsName;
+  }
+  let template = `import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
     import { InjectRepository } from '@nestjs/typeorm';
     import fileUploader from '../file-middleware';
     import { ${pascalCaseTableName} } from '${config_1.entityPath}${pascalCaseTableName}';
@@ -75,8 +75,8 @@ if(allowedfilterColumn.indexOf(element)==-1){
 
       async getOneWithRelation(${props.primaryKeys.map((element) => { return element.columnName + ":" + (0, column_type_1.default)('NO', element.type).type; })}){
         return await this.${camelCaseName}Repository.findOne({where:{${props.primaryKeys.map((element) => {
-        return element.columnName + ":" + element.columnName;
-    })}},relations:[${relationsName.map((element) => "'" + element + "'")}]})
+    return element.columnName + ":" + element.columnName;
+  })}},relations:[${relationsName.map((element) => "'" + element + "'")}]})
       }
 
 
@@ -133,19 +133,19 @@ if(allowedfilterColumn.indexOf(element)==-1){
 
       async findOne(${props.primaryKeys.map((element) => { return element.columnName + ":" + (0, column_type_1.default)('NO', element.type).type; })}) {
         return await this.${camelCaseName}Repository.findOne({ where: { ${props.primaryKeys.map((element) => {
-        return element.columnName + ":" + element.columnName;
-    })} } })
+    return element.columnName + ":" + element.columnName;
+  })} } })
       }
 
 
       async remove(${props.primaryKeys.map((element) => { return element.columnName + ":" + (0, column_type_1.default)('NO', element.type).type; })}) {
 
         return await this.${camelCaseName}Repository.delete({ ${props.primaryKeys.map((element) => {
-        return element.columnName + ":" + element.columnName;
-    })} })
+    return element.columnName + ":" + element.columnName;
+  })} })
       }
     }
     `;
-    return template;
+  return template;
 }
 exports.default = serviceTemplate;

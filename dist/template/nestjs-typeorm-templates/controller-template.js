@@ -1,14 +1,14 @@
 "use strict";
 var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
+  return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const column_type_1 = __importDefault(require("../../column-type"));
 function controllerTemplate(props) {
-    let tableName = props.pascalCaseTableName;
-    let camelCaseName = props.camelCaseName;
-    let kebabName = props.kebabName;
-    var template = `
+  let tableName = props.pascalCaseTableName;
+  let camelCaseName = props.camelCaseName;
+  let kebabName = props.kebabName;
+  var template = `
     import {
 Controller, Get, Post, Body, Param,  UseInterceptors, HttpException, HttpStatus,UploadedFiles,Query
 } from '@nestjs/common';
@@ -81,7 +81,7 @@ data: response
   }
 
 
-  @Post('filter-with-relation/relations?')
+  @Post('filter-with-relation/:relations?')
   @UseInterceptors(FileInterceptor(''))
   async filterWithRelation(@Body() body:any,@Param('relations') relations?: string) {
     let response: any;
@@ -142,11 +142,11 @@ data: response
     let response: any;
     try {
 response = await this.${camelCaseName}Service.findOne(${props.primaryKeys.map((element) => {
-        if ((0, column_type_1.default)('No', element.type).type == 'number') {
-            return '+' + element.columnName;
-        }
-        return element.columnName;
-    })});
+    if ((0, column_type_1.default)('No', element.type).type == 'number') {
+      return '+' + element.columnName;
+    }
+    return element.columnName;
+  })});
     } catch (err:any) {
 throw new HttpException({
   statusCode: HttpStatus.BAD_REQUEST,
@@ -166,11 +166,11 @@ data: response
     let response: any;
     try {
 response = await this.${camelCaseName}Service.getOneWithRelation(${props.primaryKeys.map((element) => {
-        if ((0, column_type_1.default)('No', element.type).type == 'number') {
-            return '+' + element.columnName;
-        }
-        return element.columnName;
-    })});
+    if ((0, column_type_1.default)('No', element.type).type == 'number') {
+      return '+' + element.columnName;
+    }
+    return element.columnName;
+  })});
     } catch (err:any) {
 throw new HttpException({
   statusCode: HttpStatus.BAD_REQUEST,
@@ -190,11 +190,11 @@ data: response
     let response: any;
     try {
 response = await this.${camelCaseName}Service.remove(${props.primaryKeys.map((element) => {
-        if ((0, column_type_1.default)('No', element.type).type == 'number') {
-            return '+' + element.columnName;
-        }
-        return element.columnName;
-    })});
+    if ((0, column_type_1.default)('No', element.type).type == 'number') {
+      return '+' + element.columnName;
+    }
+    return element.columnName;
+  })});
     } catch (err:any) {
 throw new HttpException({
   statusCode: HttpStatus.BAD_REQUEST,
@@ -209,6 +209,6 @@ data: response
   } 
 }
 `;
-    return template;
+  return template;
 }
 exports.default = controllerTemplate;

@@ -1,4 +1,4 @@
-import { pascalCase, camelCase,kebabCase } from "../multi-case";
+import { pascalCase, camelCase, kebabCase } from "../multi-case";
 import { host, userName, password, dataBase } from "../config";
 async function mysqlDataCollector() {
   const mysql = require("mysql2/promise");
@@ -7,13 +7,14 @@ async function mysqlDataCollector() {
     [index: string]: {
       tableData: any;
       originalTableName: string;
-      primaryKeys:{columnName:string,
-      type:string
+      primaryKeys: {
+        columnName: string,
+        type: string
       }[]
       relationsName: string[];
-      camelCaseTableName:string;
-      kabebCaseTableName:string;
-      pascalCaseTableName:string;
+      camelCaseTableName: string;
+      kabebCaseTableName: string;
+      pascalCaseTableName: string;
     };
   } = {};
   const connection = await mysql.createConnection({
@@ -36,7 +37,7 @@ async function mysqlDataCollector() {
       originalColumnName: string;
       dataType: string;
       nullable: string;
-      columnKey:string
+      columnKey: string
     }) => {
       let pascalCaseName = pascalCase(element.tableName);
       if (
@@ -48,9 +49,9 @@ async function mysqlDataCollector() {
           originalColumnName: element.columnName,
           dataType: element.dataType,
           nullable: element.nullable,
-          pascalCaseName :pascalCase(element.columnName),
-          kebabCaseName : kebabCase(element.columnName),
-          camelCaseName :camelCase( element.columnName)
+          pascalCaseName: pascalCase(element.columnName),
+          kebabCaseName: kebabCase(element.columnName),
+          camelCaseName: camelCase(element.columnName)
         });
       } else {
         tableData[pascalCaseName] = {
@@ -60,7 +61,7 @@ async function mysqlDataCollector() {
           kabebCaseTableName: kebabCase(element.tableName),
           pascalCaseTableName: pascalCase(element.tableName),
           relationsName: [],
-          primaryKeys:[]
+          primaryKeys: []
         };
         tableData[pascalCaseName].tableData = [
           {
@@ -71,60 +72,60 @@ async function mysqlDataCollector() {
           },
         ];
       }
-if(element.columnKey=='PRI'){
-  tableData[pascalCaseName].primaryKeys.push({columnName:camelCase(element.columnName),type:element.dataType})
+      if (element.columnKey == 'PRI') {
+        tableData[pascalCaseName].primaryKeys.push({ columnName: camelCase(element.columnName), type: element.dataType })
 
-}
+      }
     }
   );
-  Object.keys(tableData).forEach((key)=>{
-    
-    let element=tableData[key].originalTableName;
+  Object.keys(tableData).forEach((key) => {
+
+    let element = tableData[key].originalTableName;
     let tableRelations = relationResult[0]
-    .filter((item: { tableName: string }) => {
-      return item.tableName == element;
-    })
-    .map(
-      (item: {
-        columnName: string;
-        referencedTable: any;
-        referencedColumn: string;
-      }) => {
-        if (item.columnName == item.referencedTable) {
-          return camelCase(item.columnName + "2");
-        } else {
-          let realationName: string = item.columnName;
-          if (item.columnName.endsWith(item.referencedColumn)) {
-            realationName = realationName.replace(
-              new RegExp(item.referencedColumn + "$"),
-              ""
-            );
+      .filter((item: { tableName: string }) => {
+        return item.tableName == element;
+      })
+      .map(
+        (item: {
+          columnName: string;
+          referencedTable: any;
+          referencedColumn: string;
+        }) => {
+          if (item.columnName == item.referencedTable) {
+            return camelCase(item.columnName + "2");
+          } else {
+            let realationName: string = item.columnName;
+            if (item.columnName.endsWith(item.referencedColumn)) {
+              realationName = realationName.replace(
+                new RegExp(item.referencedColumn + "$"),
+                ""
+              );
+            }
+            return camelCase(realationName).trim();
           }
-          return camelCase(realationName).trim();
         }
-      }
-    );
-  let referencedRelation = relationResult[0]
-    .filter((item: {
-      referencedTable: string; tableName: string
-    }) => {
-      return item.referencedTable == element;
-    })
-    .map(
-      (item: {
-        [x: string]: string;
-        columnName: string;
-        referencedTable: any;
-        referencedColumn: string;
-        tableName:string;
+      );
+    let referencedRelation = relationResult[0]
+      .filter((item: {
+        referencedTable: string; tableName: string
       }) => {
-        if(item.tableName[item.tableName.length-1]=='s'){
-          return camelCase(item.tableName+'es')
+        return item.referencedTable == element;
+      })
+      .map(
+        (item: {
+          [x: string]: string;
+          columnName: string;
+          referencedTable: any;
+          referencedColumn: string;
+          tableName: string;
+        }) => {
+          if (item.tableName[item.tableName.length - 1] == 's') {
+            return camelCase(item.tableName + 'es')
+          }
+          return camelCase(item.tableName + "s")
         }
-        return camelCase(item.tableName + "s")
-      }
-    );
-tableData[key].relationsName=[...tableRelations,...referencedRelation]
+      );
+    tableData[key].relationsName = [...tableRelations, ...referencedRelation]
   })
 
   return tableData;

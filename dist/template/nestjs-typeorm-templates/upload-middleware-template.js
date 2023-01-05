@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const config_1 = require("../../config");
 function uploadMiddlewareTemplate() {
-    return `import * as fs from "fs-extra";
+  return `import * as fs from "fs-extra";
     export default function fileUploader(
       folderName: string,
       id: string | number,

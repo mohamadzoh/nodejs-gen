@@ -1,12 +1,13 @@
 import columnType from "../../column-type";
 
 function controllerTemplate(props: {
-  pascalCaseTableName:any;
-    camelCaseName: any;
+  pascalCaseTableName: any;
+  camelCaseName: any;
   kebabName: any;
-  primaryKeys:{columnName:string,
-    type:string
-    }[]
+  primaryKeys: {
+    columnName: string,
+    type: string
+  }[]
 }) {
   let tableName = props.pascalCaseTableName;
   let camelCaseName = props.camelCaseName;
@@ -84,7 +85,7 @@ data: response
   }
 
 
-  @Post('filter-with-relation/relations?')
+  @Post('filter-with-relation/:relations?')
   @UseInterceptors(FileInterceptor(''))
   async filterWithRelation(@Body() body:any,@Param('relations') relations?: string) {
     let response: any;
@@ -140,16 +141,16 @@ data: response
   }
 
   
-  @Get('${props.primaryKeys.map((element)=>{return '/:'+element.columnName})}')
-  async findOne(${props.primaryKeys.map((element)=>{return "@Param('"+element.columnName+"') "+element.columnName+":"+columnType('NO',element.type).type})}) {
+  @Get('${props.primaryKeys.map((element) => { return '/:' + element.columnName })}')
+  async findOne(${props.primaryKeys.map((element) => { return "@Param('" + element.columnName + "') " + element.columnName + ":" + columnType('NO', element.type).type })}) {
     let response: any;
     try {
-response = await this.${camelCaseName}Service.findOne(${props.primaryKeys.map((element)=>{
-  if(columnType('No',element.type).type=='number'){
-    return '+'+element.columnName
-  }
-  return element.columnName
-})});
+response = await this.${camelCaseName}Service.findOne(${props.primaryKeys.map((element) => {
+    if (columnType('No', element.type).type == 'number') {
+      return '+' + element.columnName
+    }
+    return element.columnName
+  })});
     } catch (err:any) {
 throw new HttpException({
   statusCode: HttpStatus.BAD_REQUEST,
@@ -164,16 +165,16 @@ data: response
   }
 
 
-  @Get('details${props.primaryKeys.map((element)=>{return '/:'+element.columnName})}')
-  async getOneWithRelation(${props.primaryKeys.map((element)=>{return "@Param('"+element.columnName+"') "+element.columnName+":"+columnType('NO',element.type).type})}) {
+  @Get('details${props.primaryKeys.map((element) => { return '/:' + element.columnName })}')
+  async getOneWithRelation(${props.primaryKeys.map((element) => { return "@Param('" + element.columnName + "') " + element.columnName + ":" + columnType('NO', element.type).type })}) {
     let response: any;
     try {
-response = await this.${camelCaseName}Service.getOneWithRelation(${props.primaryKeys.map((element)=>{
-  if(columnType('No',element.type).type=='number'){
-    return '+'+element.columnName
-  }
-  return element.columnName
-})});
+response = await this.${camelCaseName}Service.getOneWithRelation(${props.primaryKeys.map((element) => {
+    if (columnType('No', element.type).type == 'number') {
+      return '+' + element.columnName
+    }
+    return element.columnName
+  })});
     } catch (err:any) {
 throw new HttpException({
   statusCode: HttpStatus.BAD_REQUEST,
@@ -188,16 +189,16 @@ data: response
   }
 
   
-  @Get('remove${props.primaryKeys.map((element)=>{return '/:'+element.columnName})}')
-  async removeOne(${props.primaryKeys.map((element)=>{return "@Param('"+element.columnName+"') "+element.columnName+":"+columnType('NO',element.type).type})}) {
+  @Get('remove${props.primaryKeys.map((element) => { return '/:' + element.columnName })}')
+  async removeOne(${props.primaryKeys.map((element) => { return "@Param('" + element.columnName + "') " + element.columnName + ":" + columnType('NO', element.type).type })}) {
     let response: any;
     try {
-response = await this.${camelCaseName}Service.remove(${props.primaryKeys.map((element)=>{
-  if(columnType('No',element.type).type=='number'){
-    return '+'+element.columnName
-  }
-  return element.columnName
-})});
+response = await this.${camelCaseName}Service.remove(${props.primaryKeys.map((element) => {
+    if (columnType('No', element.type).type == 'number') {
+      return '+' + element.columnName
+    }
+    return element.columnName
+  })});
     } catch (err:any) {
 throw new HttpException({
   statusCode: HttpStatus.BAD_REQUEST,

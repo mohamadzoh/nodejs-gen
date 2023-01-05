@@ -6,9 +6,10 @@ function serviceTemplate(props: {
   camelCaseName: any;
   tableData: any;
   relationsName: any;
-  primaryKeys:{columnName:string,
-    type:string
-    }[]
+  primaryKeys: {
+    columnName: string,
+    type: string
+  }[]
 }) {
   const pascalCaseTableName = props.pascalCaseTableName;
   const camelCaseName = props.camelCaseName;
@@ -68,8 +69,8 @@ function serviceTemplate(props: {
 
       async filter(body:any) {
         let allowedfilterColumn:string[]=[${props.tableData.map(
-          (element: { columnName: any }) => "'" + element.columnName + "'"
-        )}]
+    (element: { columnName: any }) => "'" + element.columnName + "'"
+  )}]
         Object.keys(body).forEach((element) => {
 if(allowedfilterColumn.indexOf(element)==-1){
   throw new HttpException({
@@ -80,10 +81,10 @@ if(allowedfilterColumn.indexOf(element)==-1){
       }
 
 
-      async getOneWithRelation(${props.primaryKeys.map((element)=>{return element.columnName+":"+columnType('NO',element.type).type})}){
-        return await this.${camelCaseName}Repository.findOne({where:{${props.primaryKeys.map((element)=>{
-          return element.columnName+":"+element.columnName
-        })}},relations:[${relationsName.map(
+      async getOneWithRelation(${props.primaryKeys.map((element) => { return element.columnName + ":" + columnType('NO', element.type).type })}){
+        return await this.${camelCaseName}Repository.findOne({where:{${props.primaryKeys.map((element) => {
+    return element.columnName + ":" + element.columnName
+  })}},relations:[${relationsName.map(
     (element: string) => "'" + element + "'"
   )}]})
       }
@@ -91,11 +92,11 @@ if(allowedfilterColumn.indexOf(element)==-1){
 
       async filterWithRelation(body:any,relations:any) {
         let allowedfilterColumn:string[]=[${props.tableData.map(
-          (element: { columnName: any }) => "'" + element.columnName + "'"
-        )}]
+    (element: { columnName: any }) => "'" + element.columnName + "'"
+  )}]
         let allowedRelations:string[]=[${relationsName.map(
-          (element: string) => "'" + element + "'"
-        )}];
+    (element: string) => "'" + element + "'"
+  )}];
 let selectedRelations:string[]=[];
 if(relations!=undefined){
 selectedRelations=relations.split(',');
@@ -119,8 +120,8 @@ if(allowedfilterColumn.indexOf(element)==-1){
       
       async findAllWithSelectedRelation(query:{relations?:string,skip?:number,take?:number}) {
         let allowedfilterRelation=[${relationsName.map(
-          (element) => "'" + element + "'"
-        )}]
+    (element) => "'" + element + "'"
+  )}]
         let selectedRelations=[];
         if(query.relations!=undefined){
           selectedRelations=query.relations.split(',');
@@ -146,18 +147,18 @@ if(allowedfilterColumn.indexOf(element)==-1){
       }
 
 
-      async findOne(${props.primaryKeys.map((element)=>{return element.columnName+":"+columnType('NO',element.type).type})}) {
-        return await this.${camelCaseName}Repository.findOne({ where: { ${props.primaryKeys.map((element)=>{
-          return element.columnName+":"+element.columnName
-        })} } })
+      async findOne(${props.primaryKeys.map((element) => { return element.columnName + ":" + columnType('NO', element.type).type })}) {
+        return await this.${camelCaseName}Repository.findOne({ where: { ${props.primaryKeys.map((element) => {
+    return element.columnName + ":" + element.columnName
+  })} } })
       }
 
 
-      async remove(${props.primaryKeys.map((element)=>{return element.columnName+":"+columnType('NO',element.type).type})}) {
+      async remove(${props.primaryKeys.map((element) => { return element.columnName + ":" + columnType('NO', element.type).type })}) {
 
-        return await this.${camelCaseName}Repository.delete({ ${props.primaryKeys.map((element)=>{
-          return element.columnName+":"+element.columnName
-        })} })
+        return await this.${camelCaseName}Repository.delete({ ${props.primaryKeys.map((element) => {
+    return element.columnName + ":" + element.columnName
+  })} })
       }
     }
     `;

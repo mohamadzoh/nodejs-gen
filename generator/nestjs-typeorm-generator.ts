@@ -14,9 +14,10 @@ async function nestjsTypeormGenerator(tableData: {
     camelCaseTableName: string;
     kabebCaseTableName: string;
     pascalCaseTableName: string;
-    primaryKeys:{columnName:string,
-      type:string
-      }[]
+    primaryKeys: {
+      columnName: string,
+      type: string
+    }[]
   };
 }) {
   await fs.ensureDir("./output/");
@@ -33,79 +34,79 @@ async function nestjsTypeormGenerator(tableData: {
     await fs.ensureDir("./output/nestjs-typeorm/" + camelCaseName + "/dto");
     await fs.ensureFile(
       "./output/nestjs-typeorm/" +
-        camelCaseName +
-        "/" +
-        camelCaseName +
-        ".module.ts"
+      camelCaseName +
+      "/" +
+      camelCaseName +
+      ".module.ts"
     );
 
     await fs.writeFile(
       "./output/nestjs-typeorm/" +
-        camelCaseName +
-        "/" +
-        camelCaseName +
-        ".module.ts",
+      camelCaseName +
+      "/" +
+      camelCaseName +
+      ".module.ts",
       moduleTemplate({ tableName, camelCaseName })
     );
 
     await fs.ensureFile(
       "./output/nestjs-typeorm/" +
-        camelCaseName +
-        "/" +
-        camelCaseName +
-        ".controller.ts"
+      camelCaseName +
+      "/" +
+      camelCaseName +
+      ".controller.ts"
     );
 
     await fs.writeFile(
       "./output/nestjs-typeorm/" +
-        camelCaseName +
-        "/" +
-        camelCaseName +
-        ".controller.ts",
+      camelCaseName +
+      "/" +
+      camelCaseName +
+      ".controller.ts",
       controllerTemplate({
         pascalCaseTableName: tableData[tableName].pascalCaseTableName,
         camelCaseName,
         kebabName,
-        primaryKeys:tableData[tableName].primaryKeys
+        primaryKeys: tableData[tableName].primaryKeys
       })
     );
 
     await fs.ensureFile(
       "./output/nestjs-typeorm/" +
-        camelCaseName +
-        "/" +
-        camelCaseName +
-        ".service.ts"
+      camelCaseName +
+      "/" +
+      camelCaseName +
+      ".service.ts"
     );
     await fs.writeFile(
       "./output/nestjs-typeorm/" +
-        camelCaseName +
-        "/" +
-        camelCaseName +
-        ".service.ts",
+      camelCaseName +
+      "/" +
+      camelCaseName +
+      ".service.ts",
       serviceTemplate({
         camelCaseName,
         tableData: tableData[tableName].tableData,
         relationsName: tableData[tableName].relationsName,
         pascalCaseTableName: tableData[tableName].pascalCaseTableName,
-        primaryKeys:tableData[tableName].primaryKeys
+        primaryKeys: tableData[tableName].primaryKeys
 
       })
     );
 
     await fs.ensureFile(
       "./output/nestjs-typeorm/" +
-        camelCaseName +
-        "/dto/" +
-        camelCaseName +
-        ".dto.ts"
+      camelCaseName +
+      "/dto/" +
+      camelCaseName +
+      ".dto.ts"
     );
     await fs.writeFile(
       "./output/nestjs-typeorm/" +
-        camelCaseName +
-        "/dto/" +
-        camelCaseName +
-        ".dto.ts",
+      camelCaseName +
+      "/dto/" +
+      camelCaseName +
+      ".dto.ts",
       dtoTemplate({
         tableData: tableData[tableName].tableData,
         pascalCaseTableName: tableData[tableName].pascalCaseTableName,
